@@ -4,7 +4,10 @@ const base_url = 'https://wordwatch-api.herokuapp.com';
 class WordWatch {
 
   static sendWord(_word) {
-    return $.post(`${base_url}/api/v1/words`, {word: {value: _word}});
+    const cleanWord = _word.replace(/\W/g, '');
+    if (cleanWord != '') {
+      return $.post(`${base_url}/api/v1/words`, {word: {value: cleanWord}});
+    }
   }
 
   static getTopWord() {
