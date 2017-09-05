@@ -15,7 +15,19 @@ class WordWatch {
     return hash;
   }
 
+  postWords(word) {
+    return WordWatchAPI.sendWord(word);
+  }
+
   countWords() {
+    Promise.all(this.words.split(' ').map(this.postWords))
+    .then( res => {
+      WordWatch.topWord()
+      .then( el => {
+        $('.top-word h3 span').remove();
+        $('.top-word h3').append(el);
+      });
+    })
     return this.words.split(' ').reduce(this.wordHash, {});
   }
 
@@ -46,7 +58,7 @@ class WordWatch {
     const wordwatch = new WordWatch(source.val());
     target.empty();
     source.val('');
-    target.append(`<span>${wordwatch.wordCloud()}</span>`);
+    target.append(wordwatch.wordCloud());
   }
 }
 
