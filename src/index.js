@@ -10,5 +10,12 @@ $(document).ready( () => {
 
   const submitButton = $('.text-submission button')
   submitButton.on('click', WordWatch.updateCount);
+  $('.text-submission textarea').on('keypress', e => {
+    if (e.which == 13) {
+      e.preventDefault();
+      console.log('enter');
+      submitButton.click();
+    }
+  })
 });
 
