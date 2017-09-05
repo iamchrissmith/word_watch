@@ -2,9 +2,32 @@ const $ = require('jquery');
 const WordWatchAPI = require('./WordWatchAPI');
 
 class WordWatch {
+  constructor(_words) {
+    this.words = _words;
+  }
 
   formatTopWord(word) {
     return `<span>${Object.keys(word)[0]} (${Object.values(word)[0]})</span>`;
+  }
+
+  wordHash(hash, word) {
+    hash[word] = (hash[word] || 0 ) + 1;
+    return hash;
+  }
+
+  countWords() {
+    return this.words.split(' ').reduce(this.wordHash, {});
+  }
+
+  createCloudHTML(wordsWithCount) {
+    return Object.keys(wordsWithCount).map( word => {
+      return `<span style="font-size:${wordsWithCount[word]}em">${word}</span>`;
+    }).join(' ');
+  }
+
+  wordCloud() {
+    const wordCounts = this.countWords();
+    return this.createCloudHTML(wordCounts);
   }
 
   static topWord() {
@@ -18,10 +41,12 @@ class WordWatch {
   static updateCount(e){
     e.preventDefault();
 
-    console.log(e.target);
     const target = $('.word-count');
     const source = $('.text-submission textarea');
-    target.append(source.val());
+    const wordwatch = new WordWatch(source.val());
+    target.empty();
+    source.val('');
+    target.append(`<span>${wordwatch.wordCloud()}</span>`);
   }
 }
 
