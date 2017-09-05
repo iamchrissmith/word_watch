@@ -11,6 +11,7 @@ class WordWatch {
   }
 
   wordHash(hash, word) {
+    word = word.toLowerCase();
     hash[word] = (hash[word] || 0 ) + 1;
     return hash;
   }
