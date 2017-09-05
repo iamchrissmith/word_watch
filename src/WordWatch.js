@@ -48,7 +48,7 @@ class WordWatch {
     return WordWatchAPI.getTopWord()
       .then( response => {
         return wordwatch.formatTopWord(response.word);
-      })
+      });
   }
 
   static updateCount(e){
