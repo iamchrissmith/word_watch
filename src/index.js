@@ -1,4 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // have fun!
+  // have fun
 })
 
