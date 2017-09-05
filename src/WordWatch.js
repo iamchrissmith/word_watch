@@ -1,18 +1,27 @@
 const $ = require('jquery');
-const base_url = 'https://wordwatch-api.herokuapp.com';
+const WordWatchAPI = require('./WordWatchAPI');
 
 class WordWatch {
 
-  formatWordCount(word) {
+  formatTopWord(word) {
     return `<span>${Object.keys(word)[0]} (${Object.values(word)[0]})</span>`;
   }
 
-  static getTopWord() {
+  static topWord() {
     const wordwatch = new WordWatch();
-    return $.get(`${base_url}/api/v1/top_word`)
+    return WordWatchAPI.getTopWord()
       .then( response => {
-        return wordwatch.formatWordCount(response.word);
+        return wordwatch.formatTopWord(response.word);
       })
+  }
+
+  static updateCount(e){
+    e.preventDefault();
+
+    console.log(e.target);
+    const target = $('.word-count');
+    const source = $('.text-submission textarea');
+    target.append(source.val());
   }
 }
 
